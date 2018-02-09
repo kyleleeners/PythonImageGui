@@ -10,9 +10,8 @@ class Window(Frame):
         Frame.__init__(self, root)
         self.root = root
         self.init_window()
-
-        button = Button(self.root, text="upload", fg="red", command=self.upload_image)
-        button.pack(side=BOTTOM)
+        self.main_label = Label(self.root)
+        Button(self.root, text="upload", fg="red", command=self.upload_image).pack(side=BOTTOM)
 
     def init_window(self):
         self.root.title("GUI")
@@ -23,9 +22,9 @@ class Window(Frame):
         try:
             load = PIL.Image.open(filename)
             render = PIL.ImageTk.PhotoImage(load)
-            img = Label(self.root, image=render)
-            img.image = render
-            img.pack()
+            self.main_label.image = render
+            self.main_label.config(image=render)
+            self.main_label.pack()
         except Exception:
             messagebox.showerror("Error", "Not a valid image file, try with .png")
 
