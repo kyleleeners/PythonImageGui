@@ -1,20 +1,23 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
-
+from model import Model
+import numpy as np
 
 class Window(Frame):
 
-    def __init__(self, master=None):
+    def __init__(self, ml_model, master=None):
         Frame.__init__(self, master)
 
+        self.model = ml_model
         self.master = master
         self.init_window()
-        self.main_frame = self.master
+        self.main_frame = Frame(self.master).pack()
+        self.bottom_frame = Frame(self.master).pack(side=BOTTOM)
         self.main_label = Label(self.main_frame)
 
-        Button(self.master, text="upload", fg="red", command=self.upload_image).pack(side=BOTTOM)
+        Button(self.main_frame, text="upload", fg="red", command=self.upload_image).pack()
 
-        self.rgb_value = Label(self.master)
+        self.prediction = Label(self.bottom_frame)
         self.main_label.bind("<Button-1>", self.on_click)
 
     def upload_image(self):
@@ -30,8 +33,11 @@ class Window(Frame):
     def on_click(self, event):
         image = self.main_label.image
         r, g, b = image.get(event.x, event.y)
-        self.rgb_value.config(text="r: %.3f, g: %.3f, b: %.3f" % (r, g, b))
-        self.rgb_value.pack()
+
+        prediction = self.model.predict(np.array([[r, g, b]]))
+        self.prediction.config(text=prediction[0])
+        self.prediction.pack()
+
 
     def init_window(self):
         self.master.title("GUI")
@@ -40,5 +46,7 @@ class Window(Frame):
 
 if __name__ == "__main__":
     root = Tk()
-    app = Window(root)
+    model = Model()
+    model.fit()
+    app = Window(model, root)
     root.mainloop()
