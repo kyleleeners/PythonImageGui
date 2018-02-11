@@ -2,6 +2,20 @@ import os
 import pickle
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+
+def load_datasets():
+    concatenated_data = None
+    for dataSet in os.listdir("Data/"):
+        data = load_dataset(dataSet)
+        if concatenated_data is None:
+            concatenated_data = data
+        else:
+            concatenated_data = np.vstack((concatenated_data, data))
+    remove_datasets(concatenated_data)
+    return concatenated_data
 
 
 def load_dataset(filename):
@@ -25,18 +39,6 @@ def remove_datasets(superset):
     create_superset(superset)
 
 
-def load_datasets():
-    concatenated_data = None
-    for dataSet in os.listdir("Data/"):
-        data = load_dataset(dataSet)
-        if concatenated_data is None:
-            concatenated_data = data
-        else:
-            concatenated_data = np.vstack((concatenated_data, data))
-    remove_datasets(concatenated_data)
-    return concatenated_data
-
-
 class Model:
 
     def fit(self):
@@ -56,9 +58,18 @@ class Model:
         remove_datasets(self.data)
         self.fit()
 
+    def plot_data(self):
+        fig = plt.figure()
+        plt.style.use('dark_background')
+        ax = Axes3D(fig)
+        x, y, z, colours = self.data[:,0].astype(np.float), self.data[:,1].astype(np.float), self.data[:,2].astype(np.float), self.data[:,3]
+        ax.scatter(x,y,z, facecolor=colours)
+        plt.show()
+
     def __init__(self):
         self.model = None
         self.data = load_datasets()
+        # self.plot_data()
 
 
 model = Model()
