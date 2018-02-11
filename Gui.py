@@ -24,18 +24,19 @@ class Window(Frame):
         self.prediction = Label(self.bottom_frame)
         self.main_label.bind("<Button-1>", self.on_click)
 
-        def select_option():
-            if self.cur_rgb == (-1, -1, -1):
-                return
-            try:
-                model.update(var.get(), self.cur_rgb)
-            except Exception as error:
-                messagebox.showerror("Error", str(error))
-
         var = StringVar(self.bottom_frame)
         choices = ["Red", "Green", "Yellow", "Blue", "Orange", "Purple", "Pink", "White"]
         OptionMenu(self.bottom_frame, var, *choices).pack(side=BOTTOM)
-        Button(root, text="Wrong Colour? Click to train!", fg="green", command=select_option).pack(side=BOTTOM)
+        Button(root, text="Wrong Colour? Click to train!", fg="green", command=lambda: self.select_option(var))\
+            .pack(side=BOTTOM)
+
+    def select_option(self, var):
+        if self.cur_rgb == (-1, -1, -1):
+            return
+        try:
+            model.update(var.get(), self.cur_rgb)
+        except Exception as error:
+            messagebox.showerror("Error", str(error))
 
     def upload_image(self):
         filename = filedialog.askopenfilename(initialdir="/", title="Select file")
