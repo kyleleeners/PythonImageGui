@@ -5,7 +5,7 @@ import pickle
 import numpy as np
 
 
-def load_images(directory):
+def load_images_from_directory(directory):
     image_list = []
     for filename in glob.glob(directory + "*.jpg"):
         try:
@@ -16,7 +16,7 @@ def load_images(directory):
     return image_list
 
 
-def average_images(image_list, colour):
+def average_rgb_of_images(image_list, colour):
     rgb_list = []
     for image in image_list:
         try:
@@ -39,10 +39,10 @@ def save_object(rbg_matrix, colour):
 def run(load_directory, colour):
     colour = str(colour)
     print("Loading images")
-    image_list = load_images(load_directory)
-    print("Averaging images")
-    rbg_matrix = average_images(image_list, colour)
-    print("Saving data to file")
+    image_list = load_images_from_directory(load_directory)
+    print("Averaging RGB of images")
+    rbg_matrix = average_rgb_of_images(image_list, colour)
+    print("Serializing and Saving RGB data to pickle file")
     save_object(rbg_matrix, colour)
     print("Finished")
 
