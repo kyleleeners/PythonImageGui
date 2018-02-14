@@ -12,5 +12,4 @@ I picked KNN because the rgb colours are really just the unit cube scaled up by 
 TODOS:
 
 - Option to customize your own colours
-- fix pickling so files aren't being created and removed every updated (only on start / end)
 - general cleaup (learn some tkinter best practices)
