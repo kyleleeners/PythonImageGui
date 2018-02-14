@@ -5,7 +5,7 @@ After cloning, you should be able to just run the main in the GUI file. Upload a
 
 When the GUI starts, it fires off the scikit-learn KNN model to fit some pickle data sets that I've included. These have the colours red, orange, yellow, green, blue, purple, pink, and white. Then when you click on a colour, it will pull the pixel rgb values from where you clicked and do a k=9 nearest neighbors prediction (K=9 was chosen via 10-fold cross-validation).
 
-There is also the option to train the model if it seems incorrect. Click the dropdown and select the correct colour, then click the wrong colour button. This will add the current pixel rbg and the colour selected to the current dataset, wipe the previous pickle data and create a new one.
+There is also the option to train the model if it seems incorrect. Click the dropdown and select the correct colour, then click the wrong colour button. This will add the current pixel rbg and the colour selected to the current dataset. If the program is exited naturally, any updates to the dataset will be saved and applied to later instances. 
 
 I picked KNN because the rgb colours are really just the unit cube scaled up by 255 in every dimension, so Euclidean distance naturally makes sense.
 
